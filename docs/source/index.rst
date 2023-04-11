@@ -1,20 +1,17 @@
-.. DTI Project documentation master file, created by
-   sphinx-quickstart on Tue Apr 11 09:51:09 2023.
+.. Eye documentation master file, created by
+   sphinx-quickstart on Tue Nov 15 01:38:08 2022.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to DTI Project's documentation!
-=======================================
+Welcome to Eye's documentation!
+===============================
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Table of Contents
 
+   /api-doc
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+Introduction
+------------
+A project to monitor all of your cloud infrastructure at one place. 
