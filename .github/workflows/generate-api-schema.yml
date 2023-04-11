@@ -2,8 +2,7 @@ name: Generate OpenAPI Schema for Redoc
 on:
   push:
     branches:
-      - master
-      - dev
+      - main
     paths:
       - "MockS/**"
 
