@@ -1,3 +1,4 @@
+import json
 import click
 import requests
 
@@ -18,8 +19,9 @@ def create_mock(ctx, mockjson, mocklocation):
     """Send a POST request to create a mock"""
     base_url = ctx.obj['base_url']
     url = f'{base_url}/api/mock/create/'
-    data = {'mockJSON': mockjson, 'mockLocation': mocklocation}
-    response = requests.post(url, data=data)
+    _mockjson = json.loads(mockjson)
+    data = {'mockJSON': _mockjson, 'mockLocation': mocklocation}
+    response = requests.post(url, json=data) 
 
     if response.status_code == 201:
         click.echo('Mock created successfully')
