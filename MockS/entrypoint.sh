@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd /app/
+cd /app/MockS
 
 python manage.py makemigrations
 python manage.py migrate --no-input

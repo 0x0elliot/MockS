@@ -8,13 +8,13 @@ RUN apt-get update \
 
 RUN pip install --upgrade pip
 
-COPY requirements.txt /app/requirements.txt
+COPY MockS/requirements.txt /app/requirements.txt
 
 WORKDIR /app
 
 RUN pip install --no-cache-dir --compile -r requirements.txt
 
-COPY ./ /app/
+COPY ./MockS/ /app/
 
 EXPOSE 8000
 
