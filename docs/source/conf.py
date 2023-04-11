@@ -11,15 +11,18 @@ copyright = '2023, Aditya & Aakash'
 author = 'Aditya & Aakash'
 release = '0.0.0'
 
-extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.napoleon',
-    'drf_spectacular.openapi',
-]
+extensions = ["sphinxcontrib.redoc", "sphinx_rtd_theme"]
 
-drf_spectacular_settings = {
-    'SCHEMA_PATH': '../docs/schema.yml',
-}
+redoc = [
+    {
+        "name": "MockS API",
+        "page": "api-doc",
+        "spec": "schema.yml",
+        "embed": True,
+        "opts": {"suppress-warnings": True, "hide-hostname": True},
+    }
+]
+redoc_uri = "https://unpkg.com/redoc@2.0.0-rc.66/bundles/redoc.standalone.js"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
