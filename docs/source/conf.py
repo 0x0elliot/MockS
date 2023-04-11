@@ -13,17 +13,6 @@ release = '0.0.0'
 
 extensions = ["sphinxcontrib.redoc", "sphinx_rtd_theme"]
 
-redoc = [
-    {
-        "name": "MockS API",
-        "page": "api-doc",
-        "spec": "schema.yml",
-        "embed": True,
-        "opts": {"suppress-warnings": True, "hide-hostname": True},
-    }
-]
-redoc_uri = "https://unpkg.com/redoc@2.0.0-rc.66/bundles/redoc.standalone.js"
-
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
@@ -37,5 +26,16 @@ exclude_patterns = []
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'alabaster'
+html_theme = "sphinx_rtd_theme"
 html_static_path = ['_static']
+
+redoc = [
+    {
+        "name": "MockS API",
+        "page": "api-doc",
+        "spec": "schema.yml",
+        "embed": True,
+        "opts": {"suppress-warnings": True, "hide-hostname": True},
+    }
+]
+redoc_uri = "https://unpkg.com/redoc@2.0.0-rc.66/bundles/redoc.standalone.js"
