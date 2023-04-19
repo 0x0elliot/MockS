@@ -37,8 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "drf_spectacular",
-    "api.apps.apiConfig",
+    "api",
     "rest_framework",
 ]
 
@@ -61,7 +60,7 @@ ROOT_URLCONF = "DRFpractice.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["api/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

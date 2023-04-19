@@ -1,0 +1,146 @@
+<html>
+<head>
+    <title>Mock Server</title>
+    <style>
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin: 10px;
+            font-size: 18px;
+        }
+
+        button {
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            background-image: linear-gradient(to right, #000000, #000000, #000000);
+        }
+
+        #result {
+            font-size: 24px;
+            margin: 20px;
+            display: none;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .checkmark {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            background-image: url('https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678134-sign-check-256.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin-right: 10px;
+        }
+
+        .crossmark {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            background-image: url('https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-512.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin-right: 10px;
+        }
+
+        .card {
+            background: linear-gradient(to right, #03b447, #00f034, #97c7a2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            color: white;
+        }
+
+        .card input[type="text"] {
+            background-color: white;
+            color: #333;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .card label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Mock Server</h1>
+        <form onsubmit="createMock(event)" action="/api/mock/create/">
+            <label for="json">Mock JSON:</label>
+            <input type="text" id="json" name="mockJSON" placeholder="Enter mock JSON response" required><br>
+            <label for="endpoint">Endpoint:</label>
+            <input type="text" id="endpoint" name="mockLocation" placeholder="Enter endpoint" required><br>
+            <button type="submit">Create</button>
+        </form>
+
+        <button onclick="checkEndpoint()">Check</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function createMock(event) {
+            event.preventDefault();
+    
+            const form = event.target;
+            const url = form.action;
+            const formData = new FormData(form);
+    
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response:', data);
+                // handle the response as needed
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // handle the error as needed
+            });
+        }
+
+        function checkEndpoint() {
+            const endpoint = document.getElementById("endpoint").value;
+            const url = '/api'
+            fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = ""; // clear previous results
+            resultDiv.style.display = "block";
+
+            if (data.exists) {
+                const checkmark = document.createElement("div");
+                checkmark.className = "checkmark";
+                resultDiv.appendChild(checkmark);
+
+                const message = document.createElement("span");
+                message.textContent = `Endpoint "${endpoint}" exists with mock location "${data.mock_location}".`;
+                resultDiv.appendChild(message);
+            } else {
+                const crossmark = document.createElement("div");
+                crossmark.className = "crossmark";
+                resultDiv.appendChild(crossmark);
+
+                const message = document.createElement("span");
+                message.textContent = `Endpoint "${endpoint}" does not exist.`;
+                resultDiv.appendChild(message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // handle the error as needed
+        });
+    }
+</script>
+</body>
+</html> 
