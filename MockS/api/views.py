@@ -3,6 +3,7 @@ from rest_framework.response import Response
 
 from .models import mockedResponses
 from .serializers import MockSerializer
+from django.shortcuts import render
 
 
 # a lot of this doesn't make sense.
@@ -21,3 +22,6 @@ class mockList(generics.RetrieveAPIView):
 
 class mockCreate(generics.CreateAPIView):
     serializer_class = MockSerializer
+
+def mock_server(request):
+    return render(request, 'mock_server.html')
