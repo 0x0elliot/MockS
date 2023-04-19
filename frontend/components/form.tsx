@@ -6,9 +6,7 @@ import React, { useState } from "react";
 function SwapForm() {
   const [fromToken, setFromToken] = useState("");
   const [toToken, setToToken] = useState("");
-  const [amount, setAmount] = useState("");
-  const [fromAddress, setFromAddress] = useState("");
-  const [recipient, setRecipient] = useState("");
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,9 +15,6 @@ function SwapForm() {
 
   const handleFromTokenChange = (e) => setFromToken(e.target.value);
   const handleToTokenChange = (e) => setToToken(e.target.value);
-  const handleAmountChange = (e) => setAmount(e.target.value);
-  const handleFromAddressChange = (e) => setFromAddress(e.target.value);
-  const handleRecipientChange = (e) => setRecipient(e.target.value);
 
   return (
     <>
@@ -90,8 +85,8 @@ function SwapForm() {
                   className="w-full h-32 p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
                   placeholder="Enter JSON"
                   type="text"
-                  value={fromToken}
-                  onChange={handleFromTokenChange}
+                  value={toToken}
+                  onChange={handleToTokenChange}
                 />
 
                 <span className="absolute inset-y-0 right-0 grid px-4 place-content-center">
@@ -147,22 +142,5 @@ function SwapForm() {
   );
 }
 
-async function swapTokens({ from, to, amount, fromAddress, recipient }) {
-  const response = await fetch("https://relayer.meson.fi/api/v1/swap", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from,
-      to,
-      amount,
-      fromAddress,
-      recipient,
-    }),
-  });
-  const data = await response.json();
-  return data;
-}
 
 export default SwapForm;
