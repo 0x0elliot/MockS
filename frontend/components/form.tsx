@@ -4,18 +4,46 @@
 import React, { useState } from "react";
 
 function SwapForm() {
-  const [fromToken, setFromToken] = useState("");
-  const [toToken, setToToken] = useState("");
+  const [mockLocation, setMockLocation] = useState("");
+  const [mockJSON, setMockJSON] = useState("");
 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("randi");
-  };
+  async function postMockData(jsonData, mockLocation ) {
+    try {
+      const response = await fetch(`api/mock/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jsonData,mockLocation)
+      });
+      const data = await response.json();
+      console.log(data); // do something with the response data
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
 
-  const handleFromTokenChange = (e) => setFromToken(e.target.value);
-  const handleToTokenChange = (e) => setToToken(e.target.value);
+  async function getMockData(mockLocation) {
+    try {
+      const response = await fetch(`/api/mock/${mockLocation}`);
+      const data = await response.json();
+      console.log(data); // do something with the response data
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
 
+  function handleBlur() {
+    try {
+      JSON.parse(mockJSON);
+      // Update the state variable only if the input is valid JSON
+      setMockJSON(mockJSON);
+    } catch (error) {
+      // Handle invalid JSON input
+      console.error("Invalid JSON input:", error);
+    }
+  }
   return (
     <>
       <section className="relative flex flex-wrap lg:h-screen lg:items-center">
@@ -39,22 +67,18 @@ function SwapForm() {
             </h3>
           </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className="max-w-md mx-auto mt-8 mb-0 space-y-4"
-          >
             <div>
-              <label htmlFor="from" className="sr-only">
-                From
-              </label>
 
               <div className="relative">
                 <input
                   className="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
                   placeholder="/CREATE/endpoint"
                   type="text"
-                  value={fromToken}
-                  onChange={handleFromTokenChange}
+                  onChange={(event) =>
+                    setMockLocation(event.target.value)
+                  }
+                  value={mockLocation}
+                  onBlur={handleBlur}
                 />
 
                 <span className="absolute inset-y-0 right-0 grid px-4 place-content-center">
@@ -76,17 +100,17 @@ function SwapForm() {
               </div>
             </div>
             <div>
-              <label htmlFor="from" className="sr-only">
-                From
-              </label>
+
 
               <div className="relative">
                 <input
                   className="w-full h-32 p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
                   placeholder="Enter JSON"
                   type="text"
-                  value={toToken}
-                  onChange={handleToTokenChange}
+                  onChange={(event) =>
+                    setMockJSON(parseFloat(event.target.value))
+                  }
+                  value={mockJSON}
                 />
 
                 <span className="absolute inset-y-0 right-0 grid px-4 place-content-center">
@@ -114,20 +138,27 @@ function SwapForm() {
               <span className="space-x-3">
                 {" "}
                 <button
-                  type="submit"
+                 onClick={async()=>{
+                  const data = await postMockData(mockJSON,mockLocation)
+                  console.log(data)
+                 }}
                   class="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
                 >
                   /GET
                 </button>
                 <button
-                  type="submit"
+                 onClick={async()=>{
+                  const data = await getMockData(mockLocation)
+                  console.log(data)
+                 }}
+                 
                   class="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
                 >
                   /POST
                 </button>
               </span>
             </div>
-          </form>
+
         </div>
 
         <div className="relative w-full h-64 sm:h-96 lg:h-full lg:w-1/2">

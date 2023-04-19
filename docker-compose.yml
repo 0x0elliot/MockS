@@ -1,93 +1,18 @@
-version: '3.8'
+version: "3"
 
 services:
-  backend:
-    container_name: backend_app_thirdeye
-    networks:
-      default:
-      internal:
-    expose:
-      - "8000"
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
-    entrypoint: docker/entrypoint/entrypoint.sh
-    depends_on:
-      - postgres
+  backend: 
+    build: 
+      context: ./MockS
+    command: gunicorn DRFpractice.wsgi --bind 0.0.0.0:8000
     ports:
       - "8000:8000"
+
+  frontend:
+    build: 
+      context: ./MockF
+    ports:
+      - "3000:3000"
     volumes:
-      - ../:/app
-    env_file:
-      - ./.env
-    links:
-      - celery
-      - rabbit
-      - postgres
-      - redis
-
-  celery:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
-    container_name: celery_thirdeye
-    volumes:
-      - "../:/app"
-    networks:
-      default:
-      internal:
-    entrypoint: docker/entrypoint/entrypoint_celery.sh
-    env_file:
-      - ./.env
-    depends_on:
-      - redis
-      - postgres
-    links:
-      - postgres
-      - rabbit
-      - redis
-
-  celery_beat:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
-    volumes:
-      - "../:/app"
-    networks:
-      default:
-      internal:
-    container_name: celery_beat_thirdeye
-    entrypoint: docker/entrypoint/entrypoint_beat_celery.sh
-    env_file:
-      - ./.env
-    depends_on:
-      - redis
-      - postgres
-    links:
-      - postgres
-      - rabbit
-      - redis
-
-  rabbit:
-    hostname: rabbit
-    image: rabbitmq:3-management
-    networks:
-      default:
-      internal:
-    environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=mypass  # Redis - result backend
-
-  redis:
-    container_name: redis_app_thirdeye
-    networks:
-      default:
-      internal:
-    image: redis:alpine
-    hostname: redis
-
-
-networks:
-    default:
-    internal:
-        internal: true
+      - ./MockF:/app
+    command: npm start
