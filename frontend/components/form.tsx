@@ -117,13 +117,13 @@ function SwapForm() {
                   type="submit"
                   class="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
                 >
-                  /GET
+                  Check
                 </button>
                 <button
                   type="submit"
                   class="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
                 >
-                  /POST
+                  Create
                 </button>
               </span>
             </div>
