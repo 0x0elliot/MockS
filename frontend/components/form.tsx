@@ -78,23 +78,6 @@ function SwapForm() {
                 onChange={(event) => setMockLocation(event.target.value)}
                 value={mockLocation}
               />
-
-              <span className="absolute inset-y-0 right-0 grid px-4 place-content-center mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                  />
-                </svg>
-              </span>
             </div>
           </div>
           <div>
@@ -106,23 +89,6 @@ function SwapForm() {
                 onChange={(event) => setMockJSON(event.target.value)}
                 value={mockJSON}
               />
-
-              <span className="absolute inset-y-0 right-0 grid px-4 place-content-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                  />
-                </svg>
-              </span>
             </div>
           </div>
 
@@ -147,7 +113,7 @@ function SwapForm() {
                 }}
                 className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
               >
-                /POST
+                POST
               </button>
               <button
                 onClick={async () => {
@@ -156,7 +122,7 @@ function SwapForm() {
                 }}
                 className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
               >
-                /GET
+                GET
               </button>
             </span>
           </div>
