@@ -8,16 +8,17 @@ RUN apt-get update \
 
 RUN pip install --upgrade pip
 
-COPY MockS/requirements.txt /app/requirements.txt
+COPY requirements.txt /app/requirements.txt
 
 WORKDIR /app
 
 RUN pip install --no-cache-dir --compile -r requirements.txt
 
-COPY ./MockS/ /app/
+COPY ./ /app/
+
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
 EXPOSE 8000
 
-COPY docker/entrypoint/entrypoint.sh /app/
-COPY docker/entrypoint/entrypoint_celery.sh /app/
-COPY docker/entrypoint/entrypoint_beat_celery.sh /app/
+ENTRYPOINT ["/app/entrypoint.sh"]

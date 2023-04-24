@@ -1,20 +1,50 @@
 /* eslint-disable @next/next/no-img-element */
-// @ts-nocheck
-
+//@ts-nocheck
 import React, { useState } from "react";
 
+
 function SwapForm() {
-  const [fromToken, setFromToken] = useState("");
-  const [toToken, setToToken] = useState("");
+  const [mockLocation, setMockLocation] = useState<string>("");
+  const [mockJSON, setMockJSON] = useState<object | null>(null);
+  const [responseData, setResponseData] = useState<object | null>(null);
 
+  async function postMockData(
+    mockJSON: object,
+    mockLocation: string
+  ): Promise<void> {
+    const data = {
+      mockJSON: mockJSON,
+      mockLocation: mockLocation,
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("randi");
-  };
+    try {
+      const response = await fetch(`http://0.0.0.0:8000/api/mock/create/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const responseData = await response.json();
+      setResponseData(responseData); // set the response data in state
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 
-  const handleFromTokenChange = (e) => setFromToken(e.target.value);
-  const handleToTokenChange = (e) => setToToken(e.target.value);
+  async function getMockData(mockLocation: string): Promise<object | null> {
+    try {
+      const response = await fetch(
+        `http://0.0.0.0:8000/api/mock/${mockLocation}`
+      );
+      const data = await response.json();
+      setResponseData(data); // set the response data in state
+      return data;
+    } catch (error) {
+      console.error("Error:", error);
+      return null;
+    }
+  }
 
   return (
     <>
@@ -34,100 +64,102 @@ function SwapForm() {
               MockS
             </h1>
 
-            <h3 className="text-xl text-gray-800">
+            <h3 className="text-xl text-gray-800 mb-10 -mt-4">
               your go-to api testing toolkit.
             </h3>
           </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className="max-w-md mx-auto mt-8 mb-0 space-y-4"
-          >
-            <div>
-              <label htmlFor="from" className="sr-only">
-                From
-              </label>
+          <div>
+            <div className="relative">
+              <input
+                className="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm mb-4"
+                placeholder="/CREATE/endpoint"
+                type="text"
+                onChange={(event) => setMockLocation(event.target.value)}
+                value={mockLocation}
+              />
 
-              <div className="relative">
-                <input
-                  className="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
-                  placeholder="/CREATE/endpoint"
-                  type="text"
-                  value={fromToken}
-                  onChange={handleFromTokenChange}
-                />
-
-                <span className="absolute inset-y-0 right-0 grid px-4 place-content-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-4 h-4 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                    />
-                  </svg>
-                </span>
-              </div>
-            </div>
-            <div>
-              <label htmlFor="from" className="sr-only">
-                From
-              </label>
-
-              <div className="relative">
-                <input
-                  className="w-full h-32 p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
-                  placeholder="Enter JSON"
-                  type="text"
-                  value={toToken}
-                  onChange={handleToTokenChange}
-                />
-
-                <span className="absolute inset-y-0 right-0 grid px-4 place-content-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-4 h-4 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                    />
-                  </svg>
-                </span>
-              </div>
-            </div>
-
-            <div class="flex items-center justify-between">
-              <p className="text-sm text-gray-500">check console :p</p>
-
-              <span className="space-x-3">
-                {" "}
-                <button
-                  type="submit"
-                  class="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
+              <span className="absolute inset-y-0 right-0 grid px-4 place-content-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-4 h-4 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  Check
-                </button>
-                <button
-                  type="submit"
-                  class="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
-                >
-                  Create
-                </button>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                  />
+                </svg>
               </span>
             </div>
-          </form>
+          </div>
+          <div>
+            <div className="relative">
+              <input
+                className="w-full h-32 p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
+                placeholder="Enter JSON"
+                type="text"
+                onChange={(event) => setMockJSON(event.target.value)}
+                value={mockJSON}
+              />
+
+              <span className="absolute inset-y-0 right-0 grid px-4 place-content-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-4 h-4 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between mt-10">
+            {responseData ? (
+              <div>
+                <p>Response Data:</p>
+                <pre className="text-gray-700">
+                  {JSON.stringify(responseData, null, 2)}
+                </pre>
+              </div>
+            ) : (
+              <p className="text-gray-700 ml-2">Try out :p</p>
+            )}
+
+            <span className="space-x-3">
+              {" "}
+              <button
+                onClick={async () => {
+                  const data = await postMockData(mockJSON, mockLocation);
+                  console.log(data);
+                }}
+                className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
+              >
+                /POST
+              </button>
+              <button
+                onClick={async () => {
+                  const data = await getMockData(mockLocation);
+                  console.log(data);
+                }}
+                className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
+              >
+                /GET
+              </button>
+            </span>
+          </div>
         </div>
 
         <div className="relative w-full h-64 sm:h-96 lg:h-full lg:w-1/2">
@@ -141,6 +173,5 @@ function SwapForm() {
     </>
   );
 }
-
 
 export default SwapForm;
