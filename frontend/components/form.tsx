@@ -18,7 +18,7 @@ function SwapForm() {
     };
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/mock/create/`, {
+      const response = await fetch(`http://0.0.0.0:8000/api/mock/create/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,7 +35,7 @@ function SwapForm() {
   async function getMockData(mockLocation: string): Promise<object | null> {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/mock/${mockLocation}`
+        `http://0.0.0.0:8000/api/mock/${mockLocation}`
       );
       const data = await response.json();
       setResponseData(data); // set the response data in state
