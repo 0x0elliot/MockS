@@ -26,4 +26,4 @@ jobs:
         context: .
         file: docker/Dockerfile
         push: true
-        tags: ghcr.io/0x0elliot/MockS:latest
+        tags: ghcr.io/0x0elliot/mocks:latest
