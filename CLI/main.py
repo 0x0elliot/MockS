@@ -45,8 +45,25 @@ def get_mock(ctx, mocklocation):
     else:
         click.echo(f'Failed to retrieve mock for {mocklocation}')
 
+
+@click.command()
+@click.option('--url', type=str, help='The URL to proxy')
+@click.pass_context
+def proxy(ctx, url):
+    """Get the proxied response"""
+    base_url = ctx.obj['base_url']
+    url = f'{base_url}/api/proxy/?url={url}'
+    response = requests.get(url, headers={"User-Agent": "MockS CLI 1.0"})
+
+    if response.status_code == 200:
+        click.echo(f'Proxied response: {response.text}')
+    else:
+        click.echo(f'Failed to proxy response')
+
+
 cli.add_command(create_mock)
 cli.add_command(get_mock)
+cli.add_command(proxy)
 
 if __name__ == "__main__":
     cli()

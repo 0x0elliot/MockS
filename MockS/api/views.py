@@ -1,4 +1,8 @@
-from rest_framework import generics
+# views.py
+import requests
+from rest_framework.views import APIView
+
+from rest_framework import generics, status
 from rest_framework.response import Response
 
 from .models import mockedResponses
@@ -22,6 +26,21 @@ class mockList(generics.RetrieveAPIView):
 
 class mockCreate(generics.CreateAPIView):
     serializer_class = MockSerializer
+
+class ProxyAPIView(APIView):
+    def get(self, request, format=None):
+        url = request.GET.get('url', None)
+
+        if url is None:
+            return Response("Missing 'url' parameter.", status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            response = requests.get(url)
+        except requests.exceptions.RequestException as e:
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(response.text, status=response.status_code)
+
 
 def mock_server(request):
     return render(request, 'mock_server.html')

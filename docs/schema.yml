@@ -1,0 +1,93 @@
+openapi: 3.0.3
+info:
+  title: ''
+  version: 0.0.0
+paths:
+  /api/mock/{mockLocation}:
+    get:
+      operationId: mock_retrieve
+      parameters:
+      - in: path
+        name: mockLocation
+        schema:
+          type: string
+        required: true
+      tags:
+      - mock
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mock'
+          description: ''
+  /api/mock/create/:
+    post:
+      operationId: mock_create_create
+      tags:
+      - mock
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mock'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Mock'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Mock'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mock'
+          description: ''
+  /api/proxy/:
+    get:
+      operationId: proxy_retrieve
+      tags:
+      - proxy
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    Mock:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        mockJSON:
+          type: object
+          additionalProperties: {}
+        mockLocation:
+          type: string
+          maxLength: 100
+      required:
+      - id
+      - mockJSON
+      - mockLocation
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
