@@ -14,7 +14,7 @@ django_extensions
 drf_yasg
 psycopg2-binary
 django-rest-swagger
-Authlib==0.14.3
+Authlib==1.6.4
 django-cors-headers
 celery
 redis
